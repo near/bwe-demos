@@ -4,39 +4,11 @@ on:
     branches: [main]
 concurrency: main # do not allow parallel execution
 jobs:
-  # We want to leverage the reusable workflow from bos cli as shown here, but
-  # we need to temporarily use a modified version of that in order to support
-  # tsx file deployment
-  #
-  # deploy-mainnet:
-  #   uses: bos-cli-rs/bos-cli-rs/.github/workflows/deploy-mainnet.yml@master
-  #   with:
-  #     deploy-account-address: bwe-demos.near
-  #     signer-account-address: bwe-demos.near
-  #     signer-public-key: ed25519:8WLckTAFUtT7SADeAw4BF7tUFfgeG5ZW5kFbfi1TQZQB
-  #   secrets:
-  #     SIGNER_PRIVATE_KEY: ${{ secrets.SIGNER_PRIVATE_KEY }}
-  deploy-widgets:
-    runs-on: ubuntu-latest
-    name: Deploy widgets to social.near (mainnet)
-    env:
-      BOS_DEPLOY_ACCOUNT_ID: bwe-demos.near
-      BOS_SIGNER_ACCOUNT_ID: bwe-demos.near
-      BOS_SIGNER_PUBLIC_KEY: ed25519:8WLckTAFUtT7SADeAw4BF7tUFfgeG5ZW5kFbfi1TQZQB
-      BOS_SIGNER_PRIVATE_KEY: ${{ secrets.SIGNER_PRIVATE_KEY }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Change all .tsx files to .jsx files
-        run: |
-          find . -name "*.tsx" -exec sh -c 'mv "$1" "${1%.tsx}.jsx"' _ {} \;
-
-      - name: Install near-social CLI
-        run: |
-          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/FroVolod/bos-cli-rs/releases/download/v0.3.6/bos-cli-installer.sh | sh
-
-      - name: Deploy widgets
-        run: |
-          bos components deploy "$BOS_DEPLOY_ACCOUNT_ID" sign-as "$BOS_SIGNER_ACCOUNT_ID" network-config mainnet sign-with-plaintext-private-key --signer-public-key "$BOS_SIGNER_PUBLIC_KEY" --signer-private-key "$BOS_SIGNER_PRIVATE_KEY" send
+  deploy-mainnet:
+    uses: bos-cli-rs/bos-cli-rs/.github/workflows/deploy-mainnet.yml@master
+    with:
+      deploy-account-address: monkeypatcher.near
+      signer-account-address: monkeypatcher.near
+      signer-public-key: ed25519:2Qhd4nhX8DkRzz7VVWsT8f5L1xNuh9ZmECsfbRBBTBoq
+    secrets:
+      SIGNER_PRIVATE_KEY: ${{ secrets.SIGNER_PRIVATE_KEY }}
