@@ -1,3 +1,4 @@
 paths = [
-  { account = "monkeypatcher.near", path = "./src" },
+  { account = "bwe-demos.near", path = "./src" },
+  { account = "bwe.near", path = "./ignore" },
 ]
